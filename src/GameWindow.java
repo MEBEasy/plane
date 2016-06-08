@@ -91,6 +91,7 @@ public class GameWindow extends Frame implements Runnable {
                 switch (e.getKeyCode()) {
 
                     case KeyEvent.VK_W :
+                        
                         player3.speedY= -3;
                         break;
                     case KeyEvent.VK_S :
@@ -102,6 +103,7 @@ public class GameWindow extends Frame implements Runnable {
                     case KeyEvent.VK_D :
                         player3.speedX = 3;
                         break;
+                    case KeyEvent.Vk
                 }
             }
 
@@ -110,13 +112,17 @@ public class GameWindow extends Frame implements Runnable {
                 //tha phim
                 player3.speedX =0;
                 player3.speedY=0;
+
+
             }
+
         });
 
 
         try {
             backgroud = ImageIO.read(new File("Resources/Background.png"));
             player2.image = ImageIO.read(new File("Resources/PLANE2.png"));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
