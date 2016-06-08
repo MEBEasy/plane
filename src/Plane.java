@@ -54,7 +54,8 @@ public class Plane {
     public void draw(Graphics g) {
         g.drawImage(this.image, this.positionX, this.positionY, null);
     }
-    public  void shootEnemy(int x,int y){
-        dan= new Bullet(200,300,"Resources/DAN.png");
+
+    public void shootEnemy(int x, int y) {
+        dan = new Bullet(200, 300, "Resources/DAN.png");
     }
 }

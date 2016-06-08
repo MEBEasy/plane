@@ -15,7 +15,7 @@ public class GameWindow extends Frame implements Runnable {
     Plane player1;
     Plane player2;
     Plane player3;
-
+    Bullet dan1, dan2;
     BufferedImage bufferedImage;
 
 
@@ -61,22 +61,58 @@ public class GameWindow extends Frame implements Runnable {
         });
 
 
-        player1 = new Plane(100,200);
+        player1 = new Plane(100, 200);
         player3 = player1;
 
         player2 = new Plane();
+        dan1 = new Bullet(-200, -200, "Resources/DAN.png");
+        dan2 = new Bullet(-200, -200, "Resources/DAN.png");
+        this.addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
 
-       this.addMouseMotionListener(new MouseMotionListener() {
-           @Override
-           public void mouseDragged(MouseEvent e) {
+            }
 
-           }
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                player2.move(e.getX(), e.getY());
+            }
+        });
 
-           @Override
-           public void mouseMoved(MouseEvent e) {
-            player2.move(e.getX(),e.getY());
-           }
-       });
+
+        this.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    System.out.println("clich chuot phai");
+                    if (dan2.postionY <= 0) {
+                        dan2 = new Bullet(player2.positionX + 35, player2.positionY, "Resources/DAN.png");
+                        dan2.speedY = 3;
+                    }
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+        });
+
 
         this.addKeyListener(new KeyListener() {
             @Override
@@ -90,28 +126,38 @@ public class GameWindow extends Frame implements Runnable {
                 // giu phim
                 switch (e.getKeyCode()) {
 
-                    case KeyEvent.VK_W :
-                        
-                        player3.speedY= -3;
+                    case KeyEvent.VK_W:
+
+                        player3.speedY = -3;
                         break;
-                    case KeyEvent.VK_S :
+                    case KeyEvent.VK_S:
                         player3.speedY = 3;
                         break;
-                    case KeyEvent.VK_A :
-                        player3.speedX =  -3;
+                    case KeyEvent.VK_A:
+                        player3.speedX = -3;
                         break;
-                    case KeyEvent.VK_D :
+                    case KeyEvent.VK_D:
                         player3.speedX = 3;
                         break;
-                    case KeyEvent.Vk
+                    case KeyEvent.VK_SPACE: {
+                        if (dan1.postionY <= 0) {
+
+                            dan1 = new Bullet(player1.positionX + 30, player1.positionY, "Resources/DAN.png");
+                            dan1.speedY = 3;
+                        }
+                        break;
+
+                    }
+
+
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
                 //tha phim
-                player3.speedX =0;
-                player3.speedY=0;
+                player3.speedX = 0;
+                player3.speedY = 0;
 
 
             }
@@ -132,23 +178,29 @@ public class GameWindow extends Frame implements Runnable {
 
     }
 
-    public void gameUpdate(){
+
+    public void gameUpdate() {
         player1.update();
         player2.update();
+        dan1.update();
+        dan2.update();
     }
 
     @Override
     public void update(Graphics g) {
-     //   System.out.println("update");
-        if(bufferedImage==null){
-            bufferedImage = new BufferedImage(480,600,1);
+        //   System.out.println("update");
+        if (bufferedImage == null) {
+            bufferedImage = new BufferedImage(480, 600, 1);
         }
         Graphics bufferGraphics = bufferedImage.getGraphics();
 
         bufferGraphics.drawImage(backgroud, 0, 0, null);
-       player1.draw(bufferGraphics);
+        player1.draw(bufferGraphics);
         player2.draw(bufferGraphics);
-        g.drawImage(bufferedImage,0,0,null);
+        dan1.draw(bufferGraphics);
+        dan2.draw(bufferGraphics);
+
+        g.drawImage(bufferedImage, 0, 0, null);
     }
 
     @Override
@@ -158,7 +210,7 @@ public class GameWindow extends Frame implements Runnable {
             try {
 
                 Thread.sleep(17);
-                    gameUpdate();
+                gameUpdate();
                 // doan code nay chay 60 lan 1s
                 repaint(); //goi update
             } catch (InterruptedException e) {
