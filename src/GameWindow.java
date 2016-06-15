@@ -61,10 +61,17 @@ public class GameWindow extends Frame implements Runnable {
         });
 
 
-        player1 = new Plane(100, 200);
+        player1 = new PlaneFighter(100, 200, "Resources/PLANE2.png");
         player3 = player1;
 
-        player2 = new Plane();
+        // cach goi ham shot trong ifighter
+        // ((PlaneFighter)player1).shot();
+
+        //c2
+//        Ifighter a = (Ifighter)player1;
+//                         a.shot();
+
+        player2 = new PlaneSupporter(200, 300, "Resources/PLANE1.png");
         dan1 = new Bullet(-200, -200, "Resources/DAN.png");
         dan2 = new Bullet(-200, -200, "Resources/DAN.png");
         this.addMouseMotionListener(new MouseMotionListener() {
@@ -167,7 +174,7 @@ public class GameWindow extends Frame implements Runnable {
 
         try {
             backgroud = ImageIO.read(new File("Resources/Background.png"));
-            player2.image = ImageIO.read(new File("Resources/PLANE2.png"));
+            //         player2.image = ImageIO.read(new File("Resources/PLANE2.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -178,10 +185,31 @@ public class GameWindow extends Frame implements Runnable {
 
     }
 
+    // ham tinh khoang cach
+    private double kc(int x1, int y1, int x2, int y2) {
+        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+    }
+
+    long count = 0;
 
     public void gameUpdate() {
+        count++;
         player1.update();
         player2.update();
+        if (count == 600) {
+            count = 0;
+            if (player2 instanceof ISupport) {
+                if (kc(player1.positionX, player1.positionY, player2.positionX, player2.positionY) <= 100.0f) {
+                    ((ISupport) player2).bonusHP(player1);
+                }
+            }
+            if (player1 instanceof ISupport) {
+                if (kc(player1.positionX, player1.positionY, player2.positionX, player2.positionY) <= 100.0f) {
+                    ((ISupport) player1).bonusHP(player2);
+                }
+            }
+
+        }
         dan1.update();
         dan2.update();
     }

@@ -10,4 +10,9 @@ public class PlaneFighter extends Plane implements Ifighter {
     public void shot() {
         System.out.println("shot ");
     }
+
+    @Override
+    public void dropBoom() {
+        System.out.println("the boom");
+    }
 }

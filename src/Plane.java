@@ -17,24 +17,15 @@ public class Plane {
     public int speedY;
     Bullet dan;
 
-    public Plane() {
-        this.positionX = 200;
-        this.positionY = 300;
 
-        try {
-            this.image = ImageIO.read(new File("Resources/PLANE1.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
 
-        }
-    }
 
-    public Plane(int positionX, int positionY) {
+    public Plane(int positionX, int positionY,String link) {
         this.positionX = positionX;
         this.positionY = positionY;
 
         try {
-            this.image = ImageIO.read(new File("Resources/PLANE3.png"));
+            this.image = ImageIO.read(new File(link));
         } catch (IOException e) {
             e.printStackTrace();
         }
