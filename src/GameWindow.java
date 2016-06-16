@@ -21,6 +21,9 @@ public class GameWindow extends Frame implements Runnable {
     ArrayList<PlaneEnemy> enemies = new ArrayList<>();
 
 
+    public ArrayList<PlaneEnemy> getEnemies() {
+        return enemies;
+    }
 
     public GameWindow() {
         this.setSize(480, 600);
@@ -49,6 +52,7 @@ public class GameWindow extends Frame implements Runnable {
         enemies.add(new PlaneEnemy(350, 250, "Resources/PLANE1.png"));
 
       for(IRocketlistener iRocketlistener : enemies) {
+
           ((Subject)player1).addRocketListener(iRocketlistener);
       }
 

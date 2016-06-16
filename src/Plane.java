@@ -20,14 +20,11 @@ public class Plane {
     private Image hpBar;
 
 
-
-
-
-    public Plane(int positionX, int positionY,String link) {
+    public Plane(int positionX, int positionY, String link) {
         this.positionX = positionX;
         this.positionY = positionY;
-healthPoint =200;
-        maxHP =200;
+        healthPoint = 200;
+        maxHP = 200;
 
 
         try {
@@ -52,7 +49,7 @@ healthPoint =200;
     public void draw(Graphics g) {
         g.drawImage(this.image, this.positionX, this.positionY, null);
         g.drawImage(this.hpBar, this.positionX, this.positionY + 65,
-                this.positionX + 70 * healthPoint/maxHP, this.positionY + 79,
+                this.positionX + 70 * healthPoint / maxHP, this.positionY + 79,
                 0, 0, 200, 14, null);
     }
 
