@@ -34,8 +34,13 @@ public class Bullet {
 
     }
 
+    public BufferedImage getImage() {
+        return image;
+    }
+
     public void update() {
-        this.postionY -= this.speedY;
+//        this.postionY -= this.speedY;
+        this.postionY -= 5 ;
     }
 
     public void draw(Graphics g) {

@@ -15,7 +15,7 @@ public class GameWindow extends Frame implements Runnable {
     Plane player1;
     Plane player2;
     Plane player3;
-    Bullet dan1, dan2;
+
     BufferedImage bufferedImage;
 
 
@@ -61,8 +61,8 @@ public class GameWindow extends Frame implements Runnable {
         });
 
 
-        player1 = new PlaneFighter(100, 200, "Resources/PLANE2.png");
-        player3 = player1;
+        player1 = PlaneFighter.getInstance();
+        player3 = PlaneFighter.getInstance();
 
         // cach goi ham shot trong ifighter
         // ((PlaneFighter)player1).shot();
@@ -72,8 +72,7 @@ public class GameWindow extends Frame implements Runnable {
 //                         a.shot();
 
         player2 = new PlaneSupporter(200, 300, "Resources/PLANE1.png");
-        dan1 = new Bullet(-200, -200, "Resources/DAN.png");
-        dan2 = new Bullet(-200, -200, "Resources/DAN.png");
+
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -92,10 +91,6 @@ public class GameWindow extends Frame implements Runnable {
             public void mouseClicked(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON1) {
                     System.out.println("clich chuot phai");
-                    if (dan2.postionY <= 0) {
-                        dan2 = new Bullet(player2.positionX + 35, player2.positionY, "Resources/DAN.png");
-                        dan2.speedY = 3;
-                    }
                 }
             }
 
@@ -147,11 +142,7 @@ public class GameWindow extends Frame implements Runnable {
                         player3.speedX = 3;
                         break;
                     case KeyEvent.VK_SPACE: {
-                        if (dan1.postionY <= 0) {
-
-                            dan1 = new Bullet(player1.positionX + 30, player1.positionY, "Resources/DAN.png");
-                            dan1.speedY = 3;
-                        }
+                        ((Ifighter)player1).shot();
                         break;
 
                     }
@@ -210,8 +201,7 @@ public class GameWindow extends Frame implements Runnable {
             }
 
         }
-        dan1.update();
-        dan2.update();
+
     }
 
     @Override
@@ -225,8 +215,8 @@ public class GameWindow extends Frame implements Runnable {
         bufferGraphics.drawImage(backgroud, 0, 0, null);
         player1.draw(bufferGraphics);
         player2.draw(bufferGraphics);
-        dan1.draw(bufferGraphics);
-        dan2.draw(bufferGraphics);
+
+
 
         g.drawImage(bufferedImage, 0, 0, null);
     }

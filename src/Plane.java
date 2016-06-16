@@ -12,10 +12,13 @@ public class Plane {
     public int positionY;
     public BufferedImage image;
     public int damage;
+    public int maxHP;
+
     public int healthPoint;
     public int speedX;
     public int speedY;
-    Bullet dan;
+    private Image hpBar;
+
 
 
 
@@ -23,9 +26,13 @@ public class Plane {
     public Plane(int positionX, int positionY,String link) {
         this.positionX = positionX;
         this.positionY = positionY;
+healthPoint =200;
+        maxHP =200;
+
 
         try {
             this.image = ImageIO.read(new File(link));
+            this.hpBar = ImageIO.read(new File("Resources/HP.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,9 +51,10 @@ public class Plane {
 
     public void draw(Graphics g) {
         g.drawImage(this.image, this.positionX, this.positionY, null);
+        g.drawImage(this.hpBar, this.positionX, this.positionY + 65,
+                this.positionX + 70 * healthPoint/maxHP, this.positionY + 79,
+                0, 0, 200, 14, null);
     }
 
-    public void shootEnemy(int x, int y) {
-        dan = new Bullet(200, 300, "Resources/DAN.png");
-    }
+
 }

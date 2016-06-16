@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -20,5 +21,23 @@ public class PlaneSupporter extends Plane implements ISupport {
     public void bonusHP(Plane plane) {
         plane.healthPoint += 10;
         System.out.println(plane.healthPoint);
+    }
+
+    @Override
+    public void update() {
+        super.update();
+        Rectangle myPlane = new Rectangle(this.positionX, this.positionY, this.image.getWidth(), this.image.getHeight());
+        for (Bullet b : PlaneFighter.getInstance().getListBullet()) {
+            Rectangle rectBullet = new Rectangle(b.postionX, b.postionY, b.getImage().getWidth(), b.getImage().getHeight());
+
+            if (myPlane.intersects(rectBullet)) {
+                System.out.println("va cham");
+
+                if(this.healthPoint >= 5){
+                    this.healthPoint -= 5;
+                }
+            }
+        }
+
     }
 }
