@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by HUYNHDUC on 6/5/2016.
@@ -17,12 +18,40 @@ public class GameWindow extends Frame implements Runnable {
     Plane player3;
 
     BufferedImage bufferedImage;
+    ArrayList<PlaneEnemy> enemies = new ArrayList<>();
+
 
 
     public GameWindow() {
         this.setSize(480, 600);
         this.setTitle("1945");
         this.setVisible(true);
+
+
+        player1 = PlaneFighter.getInstance();
+        player3 = PlaneFighter.getInstance();
+
+        // cach goi ham shot trong ifighter
+        // ((PlaneFighter)player1).shot();
+
+        //c2
+//        Ifighter a = (Ifighter)player1;
+//                         a.shot();
+
+        player2 = new PlaneSupporter(200, 300, "Resources/PLANE3.png");
+
+
+        enemies.add(new PlaneEnemy(150, 250, "Resources/PLANE1.png"));
+        enemies.add(new PlaneEnemy(100, 200, "Resources/PLANE1.png"));
+        enemies.add(new PlaneEnemy(200, 350, "Resources/PLANE1.png"));
+        enemies.add(new PlaneEnemy(250, 450, "Resources/PLANE1.png"));
+        enemies.add(new PlaneEnemy(300, 200, "Resources/PLANE1.png"));
+        enemies.add(new PlaneEnemy(350, 250, "Resources/PLANE1.png"));
+
+      for(IRocketlistener iRocketlistener : enemies) {
+          ((Subject)player1).addRocketListener(iRocketlistener);
+      }
+
         this.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -61,17 +90,7 @@ public class GameWindow extends Frame implements Runnable {
         });
 
 
-        player1 = PlaneFighter.getInstance();
-        player3 = PlaneFighter.getInstance();
 
-        // cach goi ham shot trong ifighter
-        // ((PlaneFighter)player1).shot();
-
-        //c2
-//        Ifighter a = (Ifighter)player1;
-//                         a.shot();
-
-        player2 = new PlaneSupporter(200, 300, "Resources/PLANE1.png");
 
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
@@ -96,7 +115,9 @@ public class GameWindow extends Frame implements Runnable {
 
             @Override
             public void mousePressed(MouseEvent e) {
-
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    ((Subject)player1).FireRocket();
+                }
             }
 
             @Override
@@ -142,7 +163,7 @@ public class GameWindow extends Frame implements Runnable {
                         player3.speedX = 3;
                         break;
                     case KeyEvent.VK_SPACE: {
-                        ((Ifighter)player1).shot();
+                        ((Ifighter) player1).shot();
                         break;
 
                     }
@@ -187,6 +208,11 @@ public class GameWindow extends Frame implements Runnable {
         count++;
         player1.update();
         player2.update();
+
+        for (PlaneEnemy p : enemies) {
+            p.update();
+        }
+
         if (count == 600) {
             count = 0;
             if (player2 instanceof ISupport) {
@@ -213,9 +239,12 @@ public class GameWindow extends Frame implements Runnable {
         Graphics bufferGraphics = bufferedImage.getGraphics();
 
         bufferGraphics.drawImage(backgroud, 0, 0, null);
+
+        for (PlaneEnemy p : enemies) {
+            p.draw(bufferGraphics);
+        }
         player1.draw(bufferGraphics);
         player2.draw(bufferGraphics);
-
 
 
         g.drawImage(bufferedImage, 0, 0, null);
