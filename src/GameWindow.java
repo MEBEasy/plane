@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by HUYNHDUC on 6/5/2016.
@@ -20,10 +21,13 @@ public class GameWindow extends Frame implements Runnable {
     BufferedImage bufferedImage;
     ArrayList<PlaneEnemy> enemies = new ArrayList<>();
 
+    ArrayList<Plane> h;
+
 
     public ArrayList<PlaneEnemy> getEnemies() {
         return enemies;
     }
+
 
     public GameWindow() {
         this.setSize(480, 600);
@@ -51,10 +55,12 @@ public class GameWindow extends Frame implements Runnable {
         enemies.add(new PlaneEnemy(300, 200, "Resources/PLANE1.png"));
         enemies.add(new PlaneEnemy(350, 250, "Resources/PLANE1.png"));
 
-      for(IRocketlistener iRocketlistener : enemies) {
+        Iterator inrEnemies = enemies.iterator();
 
-          ((Subject)player1).addRocketListener(iRocketlistener);
-      }
+        for (IRocketlistener iRocketlistener : enemies) {
+
+            ((Subject) player1).addRocketListener(iRocketlistener);
+        }
 
         this.addWindowListener(new WindowListener() {
             @Override
@@ -94,8 +100,6 @@ public class GameWindow extends Frame implements Runnable {
         });
 
 
-
-
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
@@ -120,7 +124,11 @@ public class GameWindow extends Frame implements Runnable {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    ((Subject)player1).FireRocket();
+                    ((Subject) player1).FireRocket();
+                    while (inrEnemies.hasNext()) {
+                        PlaneEnemy pe = (PlaneEnemy) inrEnemies.next();
+                        if (pe.planeFireRocket() == 1) inrEnemies.remove();
+                    }
                 }
             }
 
